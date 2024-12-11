@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import styles from './TodoInput.module.css';
+import styles from './Input.module.css';
+import Header from '../Header/Header';
 
-const TodoInput = ({ onAddTask }) => {
+const Input = ({ onAddTask }) => {
   const [task, setTask] = useState('');
   const [error, setError] = useState('');
 
@@ -42,4 +43,4 @@ const TodoInput = ({ onAddTask }) => {
   );
 };
 
-export default TodoInput;
+export default Input;

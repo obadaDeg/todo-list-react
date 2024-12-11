@@ -1,0 +1,17 @@
+.todoList {
+  margin-top: 2em;
+}
+
+.taskContainer {
+  margin-top: 1em;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskDone {
+  text-decoration: line-through;
+  color: gray;
+}
