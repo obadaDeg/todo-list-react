@@ -1,0 +1,15 @@
+.todoInput {
+    margin-bottom: 2em;
+  }
+  
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 0.5em;
+  }
+  
