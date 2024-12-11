@@ -1,7 +1,8 @@
 // App.jsx
-import React, { useState } from 'react';
-import Input from './components/Input/Input.jsx';
-import TodoList from './components/TodoList/TodoList.jsx';
+import React, { useState } from "react";
+import Input from "./components/Input/Input.jsx";
+import TodoList from "./components/TodoList/TodoList.jsx";
+import TasksContext from "./store/TodoContext.jsx";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -11,7 +12,11 @@ const App = () => {
   };
 
   const toggleTask = (id) => {
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, done: !task.done } : task)));
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task,
+      ),
+    );
   };
 
   const deleteTask = (id) => {
@@ -23,15 +28,17 @@ const App = () => {
   };
 
   return (
-    <div>
-      <Input onAddTask={addTask} />
-      <TodoList
-        tasks={tasks}
-        onToggleTask={toggleTask}
-        onDeleteTask={deleteTask}
-        onDeleteAll={deleteAllTasks}
-      />
-    </div>
+    <TasksContext.Provider value={{ tasks }}>
+      <main>
+        <Input onAddTask={addTask} />
+        <TodoList
+          tasks={tasks}
+          onToggleTask={toggleTask}
+          onDeleteTask={deleteTask}
+          onDeleteAll={deleteAllTasks}
+        />
+      </main>
+    </TasksContext.Provider>
   );
 };
 

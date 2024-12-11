@@ -6,6 +6,19 @@ body,
   box-sizing: border-box;
 }
 
+:root {
+  --mainColor: #16a3b7;
+  --mainColorHover: #06707e;
+  --secondColor: #c7c7c7;
+  --modifyColor: #ffc207;
+  --modifyColorHover: #dca707;
+  --deleteColor: #DB3245;
+  --deleteColorHover: #a52a3f;
+  --checkboxColor: #0e7c26;
+  --button-text-color: white;
+  --primary-text-color: #1c1d21;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   text-align: center;

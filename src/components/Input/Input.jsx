@@ -1,20 +1,12 @@
-import React, { useState } from 'react';
-import styles from './Input.module.css';
-import Header from '../Header/Header';
+import React, { useState } from "react";
+import bookIcon from "../../assets/book-solid.svg";
+import styles from "./Input.module.css";
+import Header from "../Header/Header";
+import BookIcon from "../../assets/BookIcon";
 
-const Input = ({ onAddTask }) => {
-  const [task, setTask] = useState('');
-  const [error, setError] = useState('');
-
+const Input = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!task.trim()) {
-      setError('Task cannot be empty!');
-      return;
-    }
-    onAddTask(task.trim());
-    setTask('');
-    setError('');
   };
 
   return (
@@ -23,18 +15,16 @@ const Input = ({ onAddTask }) => {
       <form className={styles.inputContainer} onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="task-input" className={styles.inputGroupIcon}>
-            <i className="fa-solid fa-book"></i>
+            <BookIcon />
           </label>
           <input
             type="text"
             id="task-input"
             className={styles.todoInputField}
             placeholder="New Todo"
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
           />
         </div>
-        {error && <p className={styles.error}>{error}</p>}
+        {<p className={styles.error}>Error</p>}
         <button type="submit" className={styles.submitButton}>
           Add New Task
         </button>
