@@ -25,3 +25,40 @@ body {
   color: var(--primary-text-color);
   background-color: var(--button-text-color);
 }
+
+.content {
+  padding: 0 2em;
+}
+
+.todo-input__submit,
+.sharedFilterBtn,
+.sharedDeleteBtn{
+  position: relative;
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 0.2em;
+  background-color: var(--mainColor);
+  width: 100%;
+  padding: 0.6em 1em;
+  overflow: hidden;
+  transition:transform 0.3s ease ,box-shadow 0.3s ease;
+  margin: 1em;
+}
+
+.shared-hover:hover,.shared-hover:focus {
+  background-color: var(--mainColorHover);
+  transform: translateY(-0.2em);
+  box-shadow: 0 0.5em 1em rgba(0, 217, 255, 0.3);
+}
+
+.error{
+  font-size: 0.8em;
+  margin: 0.5em 0;
+  color: var(--deleteColor);
+  align-self: flex-start;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}

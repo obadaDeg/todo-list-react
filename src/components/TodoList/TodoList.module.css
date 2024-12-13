@@ -1,17 +1,48 @@
-.todoList {
-  margin-top: 2em;
-}
-
-.taskContainer {
-  margin-top: 1em;
-}
-
-.task {
+.listActionBtns {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  column-gap: 1em;
 }
 
-.taskDone {
-  text-decoration: line-through;
-  color: gray;
+.todoListContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1em;
+  margin: 1em 0;
+  max-height: 45vh;
+  overflow-y: auto;
+  padding-right: 0.2em;
 }
+
+.todoListContainer::-webkit-scrollbar {
+  width: 0.1em;
+}
+
+.todoListContainer::-webkit-scrollbar-thumb {
+  background-color: var(--mainColor);
+  border-radius: 0.2em;
+}
+
+.todoListContainer::-webkit-scrollbar-track {
+  background-color: var(--secondColor);
+}
+
+.filterBtn{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.deleteBtn{
+background-color: var(--deleteColor);
+margin: 0;
+}
+
+.deleteBtn:hover {
+background-color: var(--deleteColorHover);
+transform: translateY(-0.2em);
+box-shadow: 0 0.5em 1em rgba(255, 8, 8, 0.3);
+}
+
+
+
