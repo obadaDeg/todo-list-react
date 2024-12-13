@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./Modal.module.css";
 import PropTypes from "prop-types";
+import { validateInput } from "../../utils/validation";
 
 export default function Modal({ type, onSave, onClose, taskTitle }) {
   const inputRef = useRef(null);
@@ -10,7 +11,7 @@ export default function Modal({ type, onSave, onClose, taskTitle }) {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    setInputValue(taskTitle || "");
+    setInputValue(taskTitle);
     setError("");
     setIsEditing(false);
 
@@ -38,13 +39,6 @@ export default function Modal({ type, onSave, onClose, taskTitle }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [taskTitle, type, onClose]);
-
-  const validateInput = (value) => {
-    if (!value) return "Task cannot be empty";
-    if (/^\d/.test(value)) return "Task cannot start with a number";
-    if (value.length < 5) return "Task must be at least 5 characters long";
-    return "";
-  };
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
