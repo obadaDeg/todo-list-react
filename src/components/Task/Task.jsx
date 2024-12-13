@@ -2,6 +2,7 @@ import { useState, useRef, useContext } from "react";
 import styles from "./Task.module.css";
 import Modal from "../Modal/Modal";
 import { TaskContext } from "../../store/TaskContext";
+import PropTypes from "prop-types";
 
 export default function Task({ task }) {
   const { toggleTaskDone, renameTask, deleteTask } = useContext(TaskContext);
@@ -93,3 +94,12 @@ export default function Task({ task }) {
     </div>
   );
 }
+
+
+Task.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    isDone: PropTypes.bool.isRequired,
+  }).isRequired,
+};

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./Modal.module.css";
+import PropTypes from "prop-types";
 
 export default function Modal({ type, onSave, onClose, taskTitle }) {
   const inputRef = useRef(null);
@@ -185,3 +186,10 @@ export default function Modal({ type, onSave, onClose, taskTitle }) {
     </>
   );
 }
+
+Modal.propTypes = {
+  type: PropTypes.string.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  taskTitle: PropTypes.string,
+};

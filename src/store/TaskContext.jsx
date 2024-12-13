@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { db, ref, set, update, remove, onValue } from '../firebase/firebase-config';
+import PropTypes from 'prop-types';
 
 export const TaskContext = createContext();
 
@@ -96,4 +97,9 @@ export const TaskProvider = ({ children }) => {
       {children}
     </TaskContext.Provider>
   );
+};
+
+
+TaskProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
