@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
-import { TaskContext } from '../../store/TaskContext';
+import { useState, useContext } from 'react';
 import Header from '../Header/Header';
 import styles from './TodoInput.module.css';
+import { TaskContext } from '../../store/TaskContext';
 
 export default function TodoInput() {
   const { addTask } = useContext(TaskContext);

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styles from './TodoList.module.css';
 import Header from '../Header/Header';
 import Task from '../Task/Task';
@@ -77,7 +77,7 @@ export default function TodoList() {
             />
           ))
         ) : (
-          <p>No tasks match the filter!</p>
+          <p>No tasks.</p>
         )}
       </div>
       <div className={styles.listActionBtns}>

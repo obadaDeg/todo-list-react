@@ -1,0 +1,93 @@
+.task {
+  width: 100%;
+}
+
+.taskFlex {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6em 1em;
+  align-items: center;
+  border: 0.11em solid var(--secondColor);
+}
+
+.taskFlex:first-of-type {
+  border-radius: 0.2em 0.2em 0 0;
+}
+
+.taskFlex:last-of-type {
+  border-radius: 0 0 0.2em 0.2em;
+}
+
+.taskOperations {
+  display: flex;
+  column-gap: 0.6em;
+  align-items: center;
+}
+
+.taskOperations button {
+  border: none;
+  background-color: var(--button-text-color);
+  padding: 0;
+}
+
+.taskModify i {
+  color: var(--modifyColor);
+}
+
+.taskModify i:hover {
+  color: var(--modifyColorHover);
+}
+
+.taskDelete i {
+  color: var(--deleteColor);
+}
+
+.taskDelete i:hover {
+  color: var(--deleteColorHover);
+}
+
+.taskCheckbox {
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 0.11em solid var(--secondColor);
+  background-color: var(--button-text-color);
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+
+.taskCheckbox:hover {
+  background-color: var(--secondColor);
+}
+
+.taskOperations input[type="checkbox"]:checked {
+  background-color: var(--button-text-color);
+  border: 0.11em solid var(--checkboxColor);
+}
+
+.taskOperations input[type="checkbox"]:checked:hover {
+  background-color: var(--secondColor);
+  border: 0.11em solid var(--deleteColor);
+}
+
+.checked {
+  text-decoration: line-through;
+  color: var(--deleteColor);
+}
+
+.taskOperations input[type="checkbox"]:checked::before {
+  content: "\f00c";
+  font-family: "Font Awesome 5 Free";
+  color: var(--checkboxColor);
+  font-weight: 900;
+  font-size: 0.7em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.taskOperations input[type="checkbox"]:checked:hover::before {
+  color: var(--deleteColor);
+}
