@@ -1,0 +1,48 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0.11em solid var(--secondColor);
+    border-radius: 0.2em;
+    padding: 0 2em;
+  }
+  
+  .inputGroup {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    width: 100%;
+  }
+  
+  .inputGroupIcon {
+    background-color: var(--mainColor);
+    color: white;
+    border-right: none;
+    border-radius: 0.2em 0 0 0.2em;
+  }
+  
+  .inputGroupIcon:hover {
+    background-color: var(--mainColorHover);
+    cursor: pointer;
+  }
+  
+  .todoInputField {
+    border: 0.12em solid var(--secondColor);
+    border-radius: 0 0.2em 0.2em 0;
+    width: 100%;
+    padding: 0.5em 1em;
+  }
+  
+  .todoInputField:focus {
+    border: 0.11em solid var(--mainColorHover);
+    outline: none;
+    caret-color: var(--mainColorHover);
+  }
+  
+  .todoInputField:focus::placeholder {
+    color: var(--secondColor);
+  }
+  
+  .inputGroupIcon i {
+    padding: 0.5em 0.7em;
+  }
