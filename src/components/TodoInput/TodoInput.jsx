@@ -1,34 +1,28 @@
-import { useState, useContext } from 'react';
-import Header from '../Header/Header';
-import styles from './TodoInput.module.css';
-import { TaskContext } from '../../store/TaskContext';
+import { useState, useContext } from "react";
+import Header from "../Header/Header";
+import styles from "./TodoInput.module.css";
+import { TaskContext } from "../../store/TaskContext";
+import { validateInput } from "../../utils/validation";
 
 export default function TodoInput() {
   const { addTask } = useContext(TaskContext);
-  const [task, setTask] = useState('');
-  const [error, setError] = useState('');
-
-  const validateTask = (task) => {
-    if (!task) return 'Task cannot be empty';
-    if (/^\d/.test(task)) return 'Task cannot start with a number';
-    if (task.length < 5) return 'Task must be at least 5 characters long';
-    return '';
-  };
+  const [task, setTask] = useState("");
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     setTask(e.target.value);
-    setError('');
+    setError("");
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const validationError = validateTask(task);
+    const validationError = validateInput(task);
     if (validationError) {
       setError(validationError);
       return;
     }
     addTask(task);
-    setTask('');
+    setTask("");
   };
 
   return (
