@@ -1,7 +1,7 @@
 import './App.css';
 import TodoInput from './components/TodoInput/TodoInput';
 import TodoList from './components/TodoList/TodoList';
-import { TaskProvider } from './store/TaskContext';
+import { TaskProvider } from './store/TaskProvider';
 
 function App() {
   return (
