@@ -12,7 +12,7 @@ body,
   --secondColor: #c7c7c7;
   --modifyColor: #ffc207;
   --modifyColorHover: #dca707;
-  --deleteColor: #DB3245;
+  --deleteColor: #db3245;
   --deleteColorHover: #a52a3f;
   --checkboxColor: #0e7c26;
   --button-text-color: white;
@@ -32,7 +32,7 @@ body {
 
 .todo-input__submit,
 .sharedFilterBtn,
-.sharedDeleteBtn{
+.sharedDeleteBtn {
   position: relative;
   color: var(--button-text-color);
   border: none;
@@ -41,7 +41,9 @@ body {
   width: 100%;
   padding: 0.6em 1em;
   overflow: hidden;
-  transition:transform 0.3s ease ,box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   margin: 1em;
 }
 
@@ -52,13 +54,15 @@ body {
   box-shadow: none;
 }
 
-.shared-hover:hover,.shared-hover:focus {
+.shared-hover:hover,
+.shared-hover:focus,
+.shared-hover:active {
   background-color: var(--mainColorHover);
   transform: translateY(-0.2em);
   box-shadow: 0 0.5em 1em rgba(0, 217, 255, 0.3);
 }
 
-.error{
+.error {
   font-size: 0.8em;
   margin: 0.5em 0;
   color: var(--deleteColor);
@@ -69,5 +73,3 @@ body {
   pointer-events: none;
   opacity: 0.6;
 }
-
-

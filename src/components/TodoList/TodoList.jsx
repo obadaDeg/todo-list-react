@@ -1,10 +1,10 @@
-import { useContext, useState, useEffect } from 'react';
-import styles from './TodoList.module.css';
-import Header from '../Header/Header';
-import Task from '../Task/Task';
-import Modal from '../Modal/Modal';
-import InputSkeleton from '../InputSkeleton/InputSkeleton';
-import { TaskContext } from '../../store/TaskContext';
+import { useContext, useState, useEffect } from "react";
+import styles from "./TodoList.module.css";
+import Header from "../Header/Header";
+import Task from "../Task/Task";
+import Modal from "../Modal/Modal";
+import InputSkeleton from "../InputSkeleton/InputSkeleton";
+import { TaskContext } from "../../store/TaskContext";
 
 export default function TodoList() {
   const {
@@ -16,10 +16,11 @@ export default function TodoList() {
     deleteAllTasks,
   } = useContext(TaskContext);
 
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState("All");
   const [isDeleteDoneModalOpen, setIsDeleteDoneModalOpen] = useState(false);
   const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
-  const [Loading, setLoading] = useState(true);
+  const [errorModal, setErrorModal] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,8 +30,8 @@ export default function TodoList() {
   }, []);
 
   const filteredTasks = tasks.filter((task) => {
-    if (filter === 'Done') return task.isDone;
-    if (filter === 'Todo') return !task.isDone;
+    if (filter === "Done") return task.isDone;
+    if (filter === "Todo") return !task.isDone;
     return true;
   });
 
@@ -40,31 +41,40 @@ export default function TodoList() {
   const openDeleteAllModal = () => setIsDeleteAllModalOpen(true);
   const closeDeleteAllModal = () => setIsDeleteAllModalOpen(false);
 
+  const showErrorModal = (message) => setErrorModal(message);
+  const closeErrorModal = () => setErrorModal("");
+
   return (
     <section className="todo-list">
       <Header title="Todo List" />
       <div className={styles.listActionBtns}>
         <button
-          onClick={() => setFilter('All')}
-          className={`${styles.filterBtn} sharedFilterBtn shared-hover`}
+          onClick={() => setFilter("All")}
+          className={`${styles.filterBtn} sharedFilterBtn shared-hover ${
+            filter === "All" ? styles.active : ""
+          }`}
         >
           All
         </button>
         <button
-          onClick={() => setFilter('Done')}
-          className={`${styles.filterBtn} sharedFilterBtn shared-hover`}
+          onClick={() => setFilter("Done")}
+          className={`${styles.filterBtn} sharedFilterBtn shared-hover ${
+            filter === "Done" ? styles.active : ""
+          }`}
         >
           Done
         </button>
         <button
-          onClick={() => setFilter('Todo')}
-          className={`${styles.filterBtn} sharedFilterBtn shared-hover`}
+          onClick={() => setFilter("Todo")}
+          className={`${styles.filterBtn} sharedFilterBtn shared-hover ${
+            filter === "Todo" ? styles.active : ""
+          }`}
         >
           Todo
         </button>
       </div>
       <div className={styles.todoListContainer}>
-        {Loading ? (
+        {loading ? (
           <InputSkeleton />
         ) : filteredTasks.length > 0 ? (
           filteredTasks.map((task) => (
@@ -82,13 +92,17 @@ export default function TodoList() {
       </div>
       <div className={styles.listActionBtns}>
         <button
-          className={`${styles.deleteBtn} sharedDeleteBtn ${tasks.filter((task) => task.isDone).length === 0 ? 'disabled': ''}`}
+          className={`${styles.deleteBtn} sharedDeleteBtn ${
+            tasks.filter((task) => task.isDone).length === 0 ? "disabled" : ""
+          }`}
           onClick={openDeleteDoneModal}
         >
           Delete Done Tasks
         </button>
         <button
-          className={`${styles.deleteBtn} sharedDeleteBtn ${tasks.length === 0 ? 'disabled': ''}`}
+          className={`${styles.deleteBtn} sharedDeleteBtn ${
+            tasks.length === 0 ? "disabled" : ""
+          }`}
           onClick={openDeleteAllModal}
         >
           Delete All Tasks
@@ -97,24 +111,37 @@ export default function TodoList() {
 
       {isDeleteDoneModalOpen && (
         <Modal
-          type="deleteDoneModal"
+          id="delete-done-tasks-modal"
+          title="Delete Done Tasks"
           onSave={() => {
             deleteDoneTasks();
             closeDeleteDoneModal();
           }}
           onClose={closeDeleteDoneModal}
-        />
+        >
+          <p>Are you sure you want to delete all completed tasks?</p>
+        </Modal>
       )}
 
       {isDeleteAllModalOpen && (
         <Modal
-          type="deleteAllModal"
+          id="delete-all-tasks-modal"
+          title="Delete All Tasks"
           onSave={() => {
             deleteAllTasks();
             closeDeleteAllModal();
           }}
           onClose={closeDeleteAllModal}
-        />
+        >
+          <p>Are you sure you want to delete all tasks?</p>
+        </Modal>
+      )}
+
+      {errorModal && (
+        <Modal id="error-modal" title="Error" onClose={closeErrorModal}>
+          <p>{errorModal}</p>
+          <button onClick={closeErrorModal}>OK</button>
+        </Modal>
       )}
     </section>
   );

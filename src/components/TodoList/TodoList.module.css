@@ -33,6 +33,8 @@
   margin-right: 0;
 }
 
+
+
 .deleteBtn{
 background-color: var(--deleteColor);
 margin: 0;
@@ -44,5 +46,10 @@ transform: translateY(-0.2em);
 box-shadow: 0 0.5em 1em rgba(255, 8, 8, 0.3);
 }
 
+.active {
+  background-color: var(--mainColorHover);
+  transform: translateY(-0.2em);
+  box-shadow: 0 0.5em 1em rgba(0, 217, 255, 0.3);
+}
 
 

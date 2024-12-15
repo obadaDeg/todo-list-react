@@ -24,11 +24,12 @@ export default function TodoInput() {
     }
 
     setPending(true);
-
-    const res = await addTask(task);
+    // setTimeout(async () => {
+      const res = await addTask(task);
+    // }, 2000);
 
     if (res.error) {
-      // something went wrong
+      // should display a modal here
     }
 
     setPending(false);

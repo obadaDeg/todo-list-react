@@ -1,189 +1,50 @@
-import { useState, useEffect, useRef } from "react";
-import styles from "./Modal.module.css";
+import ReactDOM from "react-dom";
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { validateInput } from "../../utils/validation";
+import styles from "./Modal.module.css";
 
-export default function Modal({ type, onSave, onClose, taskTitle }) {
-  const inputRef = useRef(null);
+export default function Modal({ title, children, onClose, onSave }) {
   const modalContentRef = useRef(null);
-  const [inputValue, setInputValue] = useState(taskTitle || "");
-  const [error, setError] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    setInputValue(taskTitle);
-    setError("");
-    setIsEditing(false);
-
-    if (type === "renameModal" && inputRef.current) {
-      inputRef.current.focus();
-    }
-
     if (modalContentRef.current) {
-      modalContentRef.current.style.opacity = 1;
-      modalContentRef.current.style.transition = "opacity 0.3s";
+      modalContentRef.current.focus();
     }
+  }, []);
 
-    const handleClickOutside = (event) => {
-      if (
-        modalContentRef.current &&
-        !modalContentRef.current.contains(event.target)
-      ) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [taskTitle, type, onClose]);
-
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-    setError(validateInput(newValue));
-    if (newValue !== taskTitle) {
-      setIsEditing(true);
-    } else {
-      setIsEditing(false);
-    }
-  };
-
-  const handleSave = () => {
-    const validationError = validateInput(inputValue);
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-    onSave(inputValue);
-  };
-
-  return (
-    <>
-      {type === "renameModal" && (
-        <div className={styles.modal}>
-          <div ref={modalContentRef} className={styles.modalContent}>
-            <h2>Rename Task</h2>
-            <input
-              ref={inputRef}
-              type="text"
-              id="rename-input"
-              className={styles.renameInput}
-              value={inputValue}
-              onChange={handleInputChange}
-            />
-            {error && <p className="error">{error}</p>}
-            <div className={styles.modalActions}>
-              {!isEditing ? (
-                <button id="ok-btn" className={styles.okBtn} onClick={onClose}>
-                  OK
-                </button>
-              ) : (
-                <>
-                  <button
-                    id="save-btn"
-                    className={`${styles.saveBtn} ${error ? "disabled" : ""}`}
-                    onClick={handleSave}
-                  >
-                    Save
-                  </button>
-                  <button
-                    id="cancelBtn"
-                    className={styles.cancelBtn}
-                    onClick={onClose}
-                  >
-                    Cancel
-                  </button>
-                </>
-              )}
-            </div>
+  const modalContent = (
+    <div className={styles.modal} onClick={onClose}>
+      <div
+        ref={modalContentRef}
+        className={styles.modalContent}
+        onClick={(e) => e.stopPropagation()}
+        tabIndex="-1"
+      >
+        {title && <h2>{title}</h2>}
+        <div>{children}</div>
+        {onSave && (
+          <div className={styles.modalActions}>
+            <button className={styles.saveBtn} onClick={onSave}>
+              Save
+            </button>
+            <button className={styles.cancelBtn} onClick={onClose}>
+              Cancel
+            </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+    </div>
+  );
 
-      {type === "deleteModal" && (
-        <div className={styles.modal}>
-          <div ref={modalContentRef} className={styles.modalContent}>
-            <h2>Delete Task</h2>
-            <p>Are you sure you want to delete this task?</p>
-            <div className={styles.modalActions}>
-              <button
-                id="confirmBtn"
-                className={styles.confirmBtn}
-                onClick={onSave}
-              >
-                Confirm
-              </button>
-              <button
-                id="cancel-delete-btn"
-                className={styles.cancelBtn}
-                onClick={onClose}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {type === "deleteAllModal" && (
-        <div className={styles.modal}>
-          <div ref={modalContentRef} className={styles.modalContent}>
-            <h2>Delete all Tasks</h2>
-            <p>Are you sure you want to delete all the tasks?</p>
-            <div className={styles.modalActions}>
-              <button
-                id="confirm-all-btn"
-                className={styles.confirmBtn}
-                onClick={onSave}
-              >
-                Confirm
-              </button>
-              <button
-                id="cancel-delete-all-btn"
-                className={styles.cancelBtn}
-                onClick={onClose}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {type === "deleteDoneModal" && (
-        <div className={styles.modal}>
-          <div ref={modalContentRef} className={styles.modalContent}>
-            <h2>Delete Done Tasks</h2>
-            <p>Are you sure you want to delete all the done tasks?</p>
-            <div className={styles.modalActions}>
-              <button
-                id="confirm-done-btn"
-                className={styles.confirmBtn}
-                onClick={onSave}
-              >
-                Confirm
-              </button>
-              <button
-                id="cancel-delete-done-btn"
-                className={styles.cancelBtn}
-                onClick={onClose}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+  return ReactDOM.createPortal(
+    modalContent,
+    document.getElementById("modal"),
   );
 }
 
 Modal.propTypes = {
-  type: PropTypes.string.isRequired,
-  onSave: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  children: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
-  taskTitle: PropTypes.string,
+  onSave: PropTypes.func,
 };
