@@ -10,6 +10,7 @@ import {
   toggleTaskDoneInFirebase,
 } from "../utils/firebaseUtils";
 import { TaskContext } from "./TaskContext";
+import { handleResponse } from "../utils/responseHandler";
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
@@ -20,66 +21,47 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   const addTask = async (title) => {
-    try {
-      await addTaskToFirebase(db, title);
-      return { status: "success", message: "Task added successfully" };
-    } catch (error) {
-      return {
-        status: "error",
-        message: error.message || "Could not add task",
-      };
-    }
+    return handleResponse(
+      addTaskToFirebase(db, title),
+      "Task added successfully",
+      "Could not add task",
+    );
   };
 
   const renameTask = async (taskId, newTitle) => {
-    try {
-      await renameTaskInFirebase(db, taskId, newTitle);
-      return { status: "success", message: "Task renamed successfully" };
-    } catch (error) {
-      return {
-        status: "error",
-        message: error.message || "Could not rename task",
-      };
-    }
+    return handleResponse(
+      renameTaskInFirebase(db, taskId, newTitle),
+      "Task renamed successfully",
+      "Could not rename task",
+    );
   };
 
   const deleteTask = async (taskId) => {
-    try {
-      await deleteTaskFromFirebase(db, taskId);
-      return { status: "success", message: "Task deleted successfully" };
-    } catch (error) {
-      return {
-        status: "error",
-        message: error.message || "Could not delete task",
-      };
-    }
+    return handleResponse(
+      deleteTaskFromFirebase(db, taskId),
+      "Task deleted successfully",
+      "Could not delete task",
+    );
   };
-
+  
   const deleteDoneTasks = async () => {
-    try {
-      const doneTasks = tasks.filter((task) => task.isDone);
-      await Promise.all(
-        doneTasks.map((task) => deleteTaskFromFirebase(db, task.id)),
-      );
-      return { status: "success", message: "Done tasks deleted successfully" };
-    } catch (error) {
-      return {
-        status: "error",
-        message: error.message || "Could not delete done tasks",
-      };
-    }
+    const doneTasks = tasks.filter((task) => task.isDone);
+    return handleResponse(
+      async () => {
+        await Promise.all(doneTasks.map((task) => deleteTaskFromFirebase(db, task.id)));
+      },
+      "Done tasks deleted successfully",
+      "Could not delete done tasks"
+    );
   };
+  
 
   const deleteAllTasks = async () => {
-    try {
-      await deleteAllTasksFromFirebase(db);
-      return { status: "success", message: "All tasks deleted successfully" };
-    } catch (error) {
-      return {
-        status: "error",
-        message: error.message || "Could not delete all tasks",
-      };
-    }
+    return handleResponse(
+      deleteAllTasksFromFirebase(db),
+      "All tasks deleted successfully",
+      "Could not delete all tasks",
+    );
   };
 
   const toggleTaskDone = async (taskId) => {
