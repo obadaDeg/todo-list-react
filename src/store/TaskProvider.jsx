@@ -22,7 +22,7 @@ export const TaskProvider = ({ children }) => {
 
   const addTask = async (title) => {
     return handleResponse(
-      addTaskToFirebase(db, title),
+      () => addTaskToFirebase(db, title),
       "Task added successfully",
       "Could not add task",
     );
@@ -30,7 +30,7 @@ export const TaskProvider = ({ children }) => {
 
   const renameTask = async (taskId, newTitle) => {
     return handleResponse(
-      renameTaskInFirebase(db, taskId, newTitle),
+      () => renameTaskInFirebase(db, taskId, newTitle),
       "Task renamed successfully",
       "Could not rename task",
     );
@@ -38,45 +38,44 @@ export const TaskProvider = ({ children }) => {
 
   const deleteTask = async (taskId) => {
     return handleResponse(
-      deleteTaskFromFirebase(db, taskId),
+      () => deleteTaskFromFirebase(db, taskId),
       "Task deleted successfully",
       "Could not delete task",
     );
   };
-  
+
   const deleteDoneTasks = async () => {
     const doneTasks = tasks.filter((task) => task.isDone);
     return handleResponse(
       async () => {
-        await Promise.all(doneTasks.map((task) => deleteTaskFromFirebase(db, task.id)));
+        await Promise.all(
+          doneTasks.map((task) => deleteTaskFromFirebase(db, task.id)),
+        );
       },
       "Done tasks deleted successfully",
-      "Could not delete done tasks"
+      "Could not delete done tasks",
     );
   };
-  
 
   const deleteAllTasks = async () => {
     return handleResponse(
-      deleteAllTasksFromFirebase(db),
+      () => deleteAllTasksFromFirebase(db),
       "All tasks deleted successfully",
       "Could not delete all tasks",
     );
   };
 
   const toggleTaskDone = async (taskId) => {
-    try {
-      const task = tasks.find((task) => task.id === taskId);
-      if (task) {
-        await toggleTaskDoneInFirebase(db, taskId, task.isDone);
-      }
-      return { status: "success", message: "Task done toggled successfully" };
-    } catch (error) {
-      return {
-        status: "error",
-        message: error.message || "Could not toggle task done",
-      };
-    }
+    return handleResponse(
+      async () => {
+        const task = tasks.find((task) => task.id === taskId);
+        if (task) {
+          await toggleTaskDoneInFirebase(db, taskId, task.isDone);
+        }
+      },
+      "Task done toggled successfully",
+      "Could not toggle task done",
+    );
   };
 
   return (

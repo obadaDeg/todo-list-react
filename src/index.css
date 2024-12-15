@@ -45,6 +45,13 @@ body {
   margin: 1em;
 }
 
+.todo-input__submit[disabled],
+.todo-input__submit[disabled]:hover {
+  background-color: var(--secondColor);
+  transform: none;
+  box-shadow: none;
+}
+
 .shared-hover:hover,.shared-hover:focus {
   background-color: var(--mainColorHover);
   transform: translateY(-0.2em);
@@ -62,3 +69,5 @@ body {
   pointer-events: none;
   opacity: 0.6;
 }
+
+

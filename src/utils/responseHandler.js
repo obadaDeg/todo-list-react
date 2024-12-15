@@ -10,6 +10,7 @@ export const handleResponse = async (
     return {
       status: "error",
       message: error.message || errorMessage,
+      error,
     };
   }
 };

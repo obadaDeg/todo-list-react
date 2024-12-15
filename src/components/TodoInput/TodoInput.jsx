@@ -8,20 +8,30 @@ export default function TodoInput() {
   const { addTask } = useContext(TaskContext);
   const [task, setTask] = useState("");
   const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
 
   const handleInputChange = (e) => {
     setTask(e.target.value);
     setError("");
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const validationError = validateInput(task);
     if (validationError) {
       setError(validationError);
       return;
     }
-    addTask(task);
+
+    setPending(true);
+
+    const res = await addTask(task);
+
+    if (res.error) {
+      // something went wrong
+    }
+
+    setPending(false);
     setTask("");
   };
 
@@ -43,8 +53,12 @@ export default function TodoInput() {
           />
         </div>
         {error && <p className="error">{error}</p>}
-        <button type="submit" className="todo-input__submit shared-hover">
-          Add new task
+        <button
+          type="submit"
+          className="todo-input__submit shared-hover"
+          disabled={pending}
+        >
+          {!pending ? "Add new task" : "Adding task..."}
         </button>
       </form>
     </section>
