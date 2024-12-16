@@ -91,3 +91,8 @@
 .taskOperations input[type="checkbox"]:checked:hover::before {
   color: var(--deleteColor);
 }
+
+.renameInput{
+  width: calc(100% - 2em);
+  padding: 0.5em;
+}

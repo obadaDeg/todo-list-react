@@ -24,9 +24,14 @@ export default function Modal({ title, children, onClose, onSave }) {
         <div>{children}</div>
         {onSave && (
           <div className={styles.modalActions}>
+            {title.includes("Delete")?<button className={styles.confirmBtn} onClick={onSave}>
+              Confirm
+            </button>:
             <button className={styles.saveBtn} onClick={onSave}>
-              Save
-            </button>
+            Save
+          </button>
+            }
+            
             <button className={styles.cancelBtn} onClick={onClose}>
               Cancel
             </button>
