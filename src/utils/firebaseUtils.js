@@ -21,6 +21,8 @@ export const fetchTasks = (db, callback) => {
   return unsubscribe;
 };
 
+// some changes here
+
 export const addTaskToFirebase = async (db, title) => {
   const id = Date.now().toString();
   const newTask = { title, isDone: false };
