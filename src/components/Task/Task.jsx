@@ -3,21 +3,26 @@ import styles from "./Task.module.css";
 import Modal from "../Modal/Modal";
 import { TaskContext } from "../../store/TaskContext";
 import PropTypes from "prop-types";
+import { validateInput } from "../../utils/validation";
 
 export default function Task({ task }) {
   const { toggleTaskDone, renameTask, deleteTask } = useContext(TaskContext);
 
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [taskTitle, setTaskTitle] = useState(task.title);
+  const [error, setError] = useState("");
 
   const renameModalRef = useRef(null);
   const deleteModalRef = useRef(null);
 
   const openRenameModal = () => {
+    setTaskTitle(task.title);
     setIsRenameModalOpen(true);
     if (renameModalRef.current) {
       renameModalRef.current.style.display = "block";
     }
+    setError("");
   };
 
   const closeRenameModal = () => {
@@ -39,6 +44,17 @@ export default function Task({ task }) {
     if (deleteModalRef.current) {
       deleteModalRef.current.style.display = "none";
     }
+  };
+
+  const handleRenameSave = () => {
+    const validationError = validateInput(taskTitle); 
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    renameTask(task.id, taskTitle); 
+    closeRenameModal();
   };
 
   return (
@@ -66,30 +82,40 @@ export default function Task({ task }) {
       </div>
 
       <div ref={renameModalRef}>
-        {isRenameModalOpen && (
-          <Modal
-            type="renameModal"
-            taskTitle={task.title}
-            onSave={(newTitle) => {
-              renameTask(task.id, newTitle);
-              closeRenameModal();
-            }}
-            onClose={closeRenameModal}
-          />
-        )}
+      {isRenameModalOpen && (
+        <Modal
+        title="Rename Task"
+        onSave={handleRenameSave}
+        onClose={closeRenameModal}
+      >
+        <input
+          type="text"
+          value={taskTitle}
+          onChange={(e) => {
+            setTaskTitle(e.target.value);
+            setError(""); 
+          }}
+          placeholder="Enter new task name"
+          className={styles.renameInput}
+        />
+        {error && <p className="error">{error}</p>}
+      </Modal>
+      )}
       </div>
 
       <div ref={deleteModalRef}>
-        {isDeleteModalOpen && (
-          <Modal
-            type="deleteModal"
-            onSave={() => {
-              deleteTask(task.id);
-              closeDeleteModal();
-            }}
-            onClose={closeDeleteModal}
-          />
-        )}
+      {isDeleteModalOpen && (
+        <Modal
+          title="Delete Task"
+          onSave={() => {
+            deleteTask(task.id);
+            closeDeleteModal();
+          }}
+          onClose={closeDeleteModal}
+        >
+          <p>Are you sure you want to delete this task?</p>
+        </Modal>
+      )}
       </div>
     </div>
   );
