@@ -41,9 +41,6 @@ export default function TodoList() {
   const openDeleteAllModal = () => setIsDeleteAllModalOpen(true);
   const closeDeleteAllModal = () => setIsDeleteAllModalOpen(false);
 
-  const showErrorModal = (message) => setErrorModal(message);
-  const closeErrorModal = () => setErrorModal("");
-
   return (
     <section className="todo-list">
       <Header title="Todo List" />
@@ -65,6 +62,7 @@ export default function TodoList() {
           Done
         </button>
         <button
+        //commit here
           onClick={() => setFilter("Todo")}
           className={`${styles.filterBtn} sharedFilterBtn shared-hover ${
             filter === "Todo" ? styles.active : ""

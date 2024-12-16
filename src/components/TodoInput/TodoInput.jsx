@@ -15,7 +15,7 @@ export default function TodoInput() {
     setError("");
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     const validationError = validateInput(task);
     if (validationError) {
@@ -24,16 +24,11 @@ export default function TodoInput() {
     }
 
     setPending(true);
-    // setTimeout(async () => {
-      const res = await addTask(task);
-    // }, 2000);
-
-    if (res.error) {
-      // should display a modal here
-    }
-
-    setPending(false);
-    setTask("");
+    setTimeout(() => {
+      addTask(task);
+      setPending(false);
+      setTask("");
+    }, 2000);
   };
 
   return (
